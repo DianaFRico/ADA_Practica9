@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void imprimirPascal(int** triang, int n){
+    for(int i=0; i<n; i++){
+        for(int j=0; j<=i; j++){
+            printf(" %d ", triang[i][j]);
+        }
+        printf("\n");
+    }
+    
+    for(int i=0; i<n; i++) { 
+        free(triang[i]); 
+    } 
+    free(triang);
+}
+
+int** pascal(int n){
+
+    int **triang = (int**)malloc(n * sizeof(int*));
+    
+    for (int i=0; i<n; i++) {
+        
+        triang[i] = (int*)malloc((i+1) * sizeof(int));
+        
+        triang[i][0] = 1;
+        triang[i][i] = 1;
+        
+        for (int j=1; j<i; j++) {
+            triang[i][j] = triang[i-1][j-1] + triang[i-1][j];
+        }
+    }
+    imprimirPascal(triang, n);
+}
+
+int main() {
+    int n;
+    
+    printf("Ingrese un número de filas:");
+    scanf("%d", &n);
+    
+    for (int i=0; n<1 || n>30; i++) {
+		printf("\tERROR. Fuera del rango.\n\nIngresa el número de filas:");
+		scanf("%d", &n);
+    }
+    
+    pascal(n);
+    return 0;
+}
